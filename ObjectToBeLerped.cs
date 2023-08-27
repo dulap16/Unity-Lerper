@@ -66,5 +66,24 @@ namespace Assets.SCRIPTS.Start_Page
             lp.lerper.Restart();
         }
 
+        // Use this for initialization
+        void Start()
+        {
+            if (go == null)
+                go = gameObject;
+            if(inheritInitPos && position)
+                initPos = go.transform.localPosition;
+            if (inheritInitColor && color)
+                initColor = go.GetComponent<SpriteRenderer>().color;
+            if (inheritInitRot && rotation)
+                initRot = go.transform.localRotation;
+
+
+            lerpedProperties = new List<LerpedProperty>();
+            lerpedProperties.Add(new LerpedProperty(position, positionLerper));
+            lerpedProperties.Add(new LerpedProperty(color, colorLerper));
+            lerpedProperties.Add(new LerpedProperty(rotation, rotationLerper));
+        }
+
     }
 }
