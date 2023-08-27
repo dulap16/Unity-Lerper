@@ -85,5 +85,11 @@ namespace Assets.SCRIPTS.Start_Page
             lerpedProperties.Add(new LerpedProperty(rotation, rotationLerper));
         }
 
+        // Update is called once per frame
+        void Update()
+        {
+            UpdateLerpingProperties();
+            ModifyAccordingToLerp();
+        }
     }
 }
