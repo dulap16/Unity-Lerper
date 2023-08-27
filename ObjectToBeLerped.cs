@@ -58,5 +58,13 @@ namespace Assets.SCRIPTS.Start_Page
             Debug.Log(go);
         }
 
+
+        IEnumerator ApplyDelayToLerper(LerpedProperty lp)
+        {
+            yield return new WaitForSeconds(lp.lerper.delay);
+
+            lp.lerper.Restart();
+        }
+
     }
 }
