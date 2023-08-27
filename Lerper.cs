@@ -7,4 +7,5 @@ namespace Assets.SCRIPTS.Start_Page
     [System.Serializable]
     public class Lerper
     {
+    }
 }
