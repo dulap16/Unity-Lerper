@@ -131,5 +131,20 @@ namespace Assets.SCRIPTS.Start_Page
             }
         }
 
+        public void RestartOneProperty(LerpedProperty lp)
+        {
+            StopCoroutine(lp.coroutine);
+            lp.lerper.GoToBeginning();
+            StartLerpingOneProperty(lp);
+        }
+
+        public void RestartAll()
+        {
+            foreach (LerpedProperty lp in lerpedProperties)
+            {
+                RestartOneProperty(lp);
+            }
+        }
+
     }
 }
