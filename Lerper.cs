@@ -19,5 +19,34 @@ namespace Assets.SCRIPTS.Start_Page
                 _current = _target;
         }
 
+        public float GetCurrent()
+        {
+            return _current;
+        }
+
+        public void StartLerping()
+        {
+            _target = 1;
+        }
+
+        public void StopLerping() {
+            _current = _target;
+        }
+
+        public void GoToBeginning()
+        {
+            _current = 0;
+            _target = 0;
+        }
+
+        public void Restart()
+        {
+            _current = 0;
+            StartLerping();
+        }
+        public bool wasTargetReached()
+        {
+            return _current == _target;
+        }
     }
 }
