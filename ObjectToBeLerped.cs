@@ -12,6 +12,7 @@ namespace Assets.SCRIPTS.Start_Page
         [SerializeField] private bool position = false;
         [SerializeField] private bool color = false;
         [SerializeField] private bool rotation = false;
+        [SerializeField] private bool scale = false;
 
 
         [Header("Position lerping")]
@@ -20,6 +21,13 @@ namespace Assets.SCRIPTS.Start_Page
         [SerializeField] public Vector3 finalPos;
         [SerializeField] private Lerper positionLerper; 
         [SerializeField] private AnimationCurve _posCurve;
+
+        [Header("Scale lerping")]
+        [SerializeField] public bool inheritInitScale = true;
+        [SerializeField] public Vector3 initScale;
+        [SerializeField] public Vector3 finalScale;
+        [SerializeField] private Lerper scaleLerper;
+        [SerializeField] private AnimationCurve _scaleCurve;
 
         [Header("Color lerping")]
         [SerializeField] private bool inheritInitColor = true;
@@ -83,6 +91,7 @@ namespace Assets.SCRIPTS.Start_Page
             lerpedProperties.Add(new LerpedProperty(position, positionLerper));
             lerpedProperties.Add(new LerpedProperty(color, colorLerper));
             lerpedProperties.Add(new LerpedProperty(rotation, rotationLerper));
+            lerpedProperties.Add(new LerpedProperry(scale, scaleLerper));
         }
 
         // Update is called once per frame
