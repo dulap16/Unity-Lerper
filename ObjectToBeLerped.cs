@@ -106,5 +106,17 @@ namespace Assets.SCRIPTS.Start_Page
             }
         }
 
+        public void ModifyAccordingToLerp()
+        {
+            if(position)
+                go.transform.localPosition = Vector3.Lerp(initPos, finalPos, _posCurve.Evaluate(positionLerper.GetCurrent()));
+
+            if (color)
+                go.GetComponent<SpriteRenderer>().color = Color.Lerp(initColor, finalColor, _colorCurve.Evaluate(colorLerper.GetCurrent()));
+
+            if (rotation)
+                go.transform.localRotation = Quaternion.Lerp(initRot, finalRot, _rotCurve.Evaluate(rotationLerper.GetCurrent()));
+        }
+
     }
 }
