@@ -146,5 +146,12 @@ namespace Assets.SCRIPTS.Start_Page
             }
         }
 
+        public void UpdateLerpingProperties()
+        {
+            foreach(LerpedProperty lp in lerpedProperties)
+            {
+                lp.lerper.Lerp();
+            }
+        }
     }
 }
