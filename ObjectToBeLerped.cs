@@ -91,5 +91,20 @@ namespace Assets.SCRIPTS.Start_Page
             UpdateLerpingProperties();
             ModifyAccordingToLerp();
         }
+
+        public void StartLerpingOneProperty(LerpedProperty lp)
+        {
+            lp.coroutine = ApplyDelayToLerper(lp);
+            StartCoroutine(lp.coroutine);
+        }
+
+        public void StartLerpingAll()
+        {
+            foreach(LerpedProperty lp in lerpedProperties)
+            {
+                StartLerpingOneProperty(lp);
+            }
+        }
+
     }
 }
