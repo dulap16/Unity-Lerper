@@ -118,5 +118,18 @@ namespace Assets.SCRIPTS.Start_Page
                 go.transform.localRotation = Quaternion.Lerp(initRot, finalRot, _rotCurve.Evaluate(rotationLerper.GetCurrent()));
         }
 
+        public void StopOneProperty(LerpedProperty lp)
+        {
+            lp.lerper.StopLerping();
+        }
+
+        public void StopAll()
+        {
+            foreach (LerpedProperty lp in lerpedProperties)
+            {
+                StopOneProperty(lp);
+            }
+        }
+
     }
 }
