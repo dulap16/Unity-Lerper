@@ -36,5 +36,17 @@ namespace Assets.SCRIPTS.Start_Page
         [SerializeField] private Lerper rotationLerper;
         [SerializeField] private AnimationCurve _rotCurve;
 
+        public class LerpedProperty
+        {
+            public bool isLerped = false;
+            public Lerper lerper;
+            public IEnumerator coroutine;
+
+            public LerpedProperty(bool b, Lerper l)
+            {
+                isLerped = b;
+                lerper = l;
+            }
+        }
     }
 }
