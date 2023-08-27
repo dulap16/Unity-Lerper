@@ -51,5 +51,12 @@ namespace Assets.SCRIPTS.Start_Page
 
         private List<LerpedProperty> lerpedProperties;
 
+        public ObjectToBeLerped(GameObject _go)
+        {
+            go = _go;
+
+            Debug.Log(go);
+        }
+
     }
 }
