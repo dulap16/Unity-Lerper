@@ -48,5 +48,8 @@ namespace Assets.SCRIPTS.Start_Page
                 lerper = l;
             }
         }
+
+        private List<LerpedProperty> lerpedProperties;
+
     }
 }
