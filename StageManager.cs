@@ -27,5 +27,14 @@ namespace Assets.SCRIPTS.Start_Page
             return true;
         }
 
+        public Stage getCurrentStage()
+        {
+            return getStageOfIndex(index);
+        }
+
+        public Stage getStageOfIndex(int i)
+        {
+            return stages[i];
+        }
     }
 }
