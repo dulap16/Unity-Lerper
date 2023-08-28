@@ -15,5 +15,22 @@ namespace Assets.SCRIPTS.Start_Page
         [SerializeField] private Color initColor, finalColor;
         [SerializeField] private Quaternion initRot, finalRot;
         [SerializeField] private List<AnimationCurve> _curves; // 1 - pos, 2 -scale, 3 - color, 4 - rotation
+
+        public Stage()
+        {
+            _curves = new List<AnimationCurve>();
+            for (int i = 0; i < 4; i++)
+                _curves.Add(new AnimationCurve());
+        }
+
+        public void setInitPos(Vector3 pos)
+        {
+            initPos = pos;
+        }
+
+        public void setInherit(bool b)
+        {
+            _inheritLast = b;
+        }
     }
 }
