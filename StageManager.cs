@@ -19,5 +19,13 @@ namespace Assets.SCRIPTS.Start_Page
             stages.Add(stage);
         }
 
+        public bool goToNextStage()
+        {
+            index++;
+            if (index >= stages.Count)
+                return false;
+            return true;
+        }
+
     }
 }
