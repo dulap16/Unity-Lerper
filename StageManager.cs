@@ -10,5 +10,14 @@ namespace Assets.SCRIPTS.Start_Page
     {
         [SerializeField] private List<Stage> stages;
         [SerializeField] private int index;
+
+        public void addStage(Stage stage)
+        {
+            if(stages == null)
+                stages = new List<Stage>();
+
+            stages.Add(stage);
+        }
+
     }
 }
