@@ -21,9 +21,12 @@ namespace Assets.SCRIPTS.Start_Page
 
         public bool goToNextStage()
         {
-            index++;
-            if (index >= stages.Count)
+            if (current + 1>= stages.Count)
                 return false;
+            
+            current++;
+
+            getCurrentStage().GoToBeginning();
             return true;
         }
 
