@@ -127,5 +127,12 @@ namespace Assets.SCRIPTS.Start_Page
             return lerperDict[name].WillLerp();
         }
 
+        public void setInitValuesOfStage(Vector3 pos, Vector3 scale, Color color, Quaternion rotation)
+        {
+            positionLerper.setInit(pos);
+            scaleLerper.setInit(scale);
+            colorLerper.setInit(color);
+            rotationLerper.setInit(rotation);        
+        }
     }
 }
