@@ -37,11 +37,78 @@ namespace Assets.SCRIPTS.Start_Page
             lerperDict.Add("color", colorLerper);
             lerperDict.Add("rotation", rotationLerper);
         }
+        public void LerpAll()
+        {
+            if(positionLerper.WillLerp())
+                positionLerper.Lerp();
+
+            if(scaleLerper.WillLerp())
+                scaleLerper.Lerp();
+            
+            if(colorLerper.WillLerp())
+                colorLerper.Lerp();
+            
+            if(rotationLerper.WillLerp())
+                rotationLerper.Lerp();
+
+            /*foreach (Lerper l in lerpers)
+                if (l.WillLerp())
+                {
+                    Debug.Log(l);
+                    l.Lerp();
+                }*/
         }
 
-        public void setInitPos(Vector3 pos)
+        public void StartAll()
         {
-            initPos = pos;
+            positionLerper.StartLerping();
+            scaleLerper.StartLerping();
+            colorLerper.StartLerping();
+            rotationLerper.StartLerping();
+
+            /*foreach (Lerper l in lerpers)
+                l.StartLerping();*/
+        }
+
+        public void StopAll()
+        {
+            positionLerper.StopLerping();
+            scaleLerper.StopLerping();
+            colorLerper.StopLerping();
+            rotationLerper.StopLerping();
+
+            /*foreach (Lerper l in lerpers)
+                l.StopLerping();*/
+        }
+
+        public void RestartAll()
+        {
+            positionLerper.Restart();
+            scaleLerper.Restart();
+            colorLerper.Restart();
+            rotationLerper.Restart();
+
+            /*foreach (Lerper l in lerpers)
+                l.Restart(); */
+        }
+
+        public void GoToBeginning()
+        {
+            positionLerper.GoToBeginning();
+            scaleLerper.GoToBeginning();
+            colorLerper.GoToBeginning();
+            rotationLerper.GoToBeginning();
+
+            /*foreach (Lerper l in lerpers)
+                l.GoToBeginning();*/
+        }
+
+        public bool wasStageFinished()
+        {
+            return positionLerper.wasTargetReached()
+                && scaleLerper.wasTargetReached()
+                && colorLerper.wasTargetReached()
+                && rotationLerper.wasTargetReached();
         }
 
         public void setInherit(bool b)
