@@ -20,9 +20,23 @@ namespace Assets.SCRIPTS.Start_Page
 
         public Stage()
         {
-            _curves = new List<AnimationCurve>();
-            for (int i = 0; i < 4; i++)
-                _curves.Add(new AnimationCurve());
+            lerpers = new List<Lerper>();
+
+            positionLerper = new Vector3Lerper();
+            scaleLerper = new Vector3Lerper();
+            colorLerper = new ColorLerper();
+            rotationLerper = new QuaternionLerper();
+            lerpers.Add(positionLerper);
+            lerpers.Add(scaleLerper);
+            lerpers.Add(colorLerper);
+            lerpers.Add(rotationLerper);
+
+            lerperDict = new Dictionary<String, Lerper>();
+            lerperDict.Add("position", positionLerper);
+            lerperDict.Add("scale", scaleLerper);
+            lerperDict.Add("color", colorLerper);
+            lerperDict.Add("rotation", rotationLerper);
+        }
         }
 
         public void setInitPos(Vector3 pos)
