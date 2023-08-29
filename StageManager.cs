@@ -70,5 +70,13 @@ namespace Assets.SCRIPTS.Start_Page
             getStageOfIndex(0).setInitValuesOfStage(pos, scale, color, rotation);
         }
 
+        public bool advanceIfCase()
+        {
+            if(isCurrentStageFinished())
+            {
+                return goToNextStage();
+            }
+            return false;
+        }
     }
 }
