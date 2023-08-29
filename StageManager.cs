@@ -49,9 +49,25 @@ namespace Assets.SCRIPTS.Start_Page
         {
             return stages[i];
         }
+
+        public void setCurrent(int x)
+        {
+            current = x;
+        }
+
+        public void setStageOfIndex(int i, Stage stage)
+        {
+            stages[i] = stage;
+        }
+
         public int getNumberOfStages()
         {
             return stages.Count;
+        }
+
+        public void setInitValues(Vector3 pos, Vector3 scale, Color color, Quaternion rotation)
+        {
+            getStageOfIndex(0).setInitValuesOfStage(pos, scale, color, rotation);
         }
 
     }
