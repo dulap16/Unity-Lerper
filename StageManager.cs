@@ -30,14 +30,29 @@ namespace Assets.SCRIPTS.Start_Page
             return true;
         }
 
+        public int getCurrentIndex()
+        {
+            return current;
+        }
+
         public Stage getCurrentStage()
         {
-            return getStageOfIndex(index);
+            return getStageOfIndex(current);
+        }
+
+        public bool isCurrentStageFinished()
+        {
+            return getCurrentStage().wasStageFinished();
         }
 
         public Stage getStageOfIndex(int i)
         {
             return stages[i];
         }
+        public int getNumberOfStages()
+        {
+            return stages.Count;
+        }
+
     }
 }
