@@ -37,6 +37,12 @@ namespace Assets.SCRIPTS.Start_Page
             lerperDict.Add("color", colorLerper);
             lerperDict.Add("rotation", rotationLerper);
         }
+
+        public Lerper getLerper(String name)
+        {
+            return lerperDict[name];
+        }
+
         public void LerpAll()
         {
             if(positionLerper.WillLerp())
@@ -115,5 +121,11 @@ namespace Assets.SCRIPTS.Start_Page
         {
             _inheritLast = b;
         }
+
+        public bool willLerpProperty(String name)
+        {
+            return lerperDict[name].WillLerp();
+        }
+
     }
 }
