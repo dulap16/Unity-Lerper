@@ -22,12 +22,11 @@ namespace Assets.SCRIPTS.Start_Page
             Debug.Log(go);
         }
 
-
-        IEnumerator ApplyDelayToLerper(LerpedProperty lp)
+        IEnumerator ApplyDelayToCurrentStage(Lerper l, float delay)
         {
-            yield return new WaitForSeconds(lp.lerper.delay);
+            yield return new WaitForSeconds(delay);
 
-            lp.lerper.Restart();
+            l.StartLerping();
         }
 
         // Use this for initialization
@@ -35,19 +34,13 @@ namespace Assets.SCRIPTS.Start_Page
         {
             if (go == null)
                 go = gameObject;
-            if(inheritInitPos && position)
-                initPos = go.transform.localPosition;
-            if (inheritInitColor && color)
-                initColor = go.GetComponent<SpriteRenderer>().color;
-            if (inheritInitRot && rotation)
-                initRot = go.transform.localRotation;
 
+            if(inheritInitialProperties)
+                stages.setInitValues(go.transform.localPosition, go.transform.localScale, go.GetComponent<SpriteRenderer>().color, go.transform.rotation);
 
-            lerpedProperties = new List<LerpedProperty>();
-            lerpedProperties.Add(new LerpedProperty(position, positionLerper));
-            lerpedProperties.Add(new LerpedProperty(color, colorLerper));
-            lerpedProperties.Add(new LerpedProperty(rotation, rotationLerper));
-            lerpedProperties.Add(new LerpedProperry(scale, scaleLerper));
+            currentStage = stages.getCurrentStage();
+
+            coroutines = new Dictionary<Lerper, IEnumerator>();
         }
 
         // Update is called once per frame
@@ -55,68 +48,69 @@ namespace Assets.SCRIPTS.Start_Page
         {
             UpdateLerpingProperties();
             ModifyAccordingToLerp();
-        }
 
-        public void StartLerpingOneProperty(LerpedProperty lp)
-        {
-            lp.coroutine = ApplyDelayToLerper(lp);
-            StartCoroutine(lp.coroutine);
-        }
-
-        public void StartLerpingAll()
-        {
-            foreach(LerpedProperty lp in lerpedProperties)
+            if (stages.advanceIfCase())
             {
-                StartLerpingOneProperty(lp);
+                ResetCurrentVariables();
+
+                if(currentStage._inheritLast)
+                    MakeNextStageStartFromLastPosition();
+
+                ResetCurrentVariables();
+                StartLerping();
+            }
+        }
+
+        public void StartLerping()
+        {
+            foreach (Lerper l in currentStage.lerperDict.Values)
+            {
+                coroutines[l] = ApplyDelayToCurrentStage(l, l.delay);
+                StartCoroutine(coroutines[l]);
             }
         }
 
         public void ModifyAccordingToLerp()
         {
-            if(position)
-                go.transform.localPosition = Vector3.Lerp(initPos, finalPos, _posCurve.Evaluate(positionLerper.GetCurrent()));
+            if (currentStage.willLerpProperty("position"))
+                go.transform.localPosition = ((Vector3Lerper)currentStage.getLerper("position")).getCurrentValue();
 
-            if (color)
-                go.GetComponent<SpriteRenderer>().color = Color.Lerp(initColor, finalColor, _colorCurve.Evaluate(colorLerper.GetCurrent()));
+            if (currentStage.willLerpProperty("scale"))
+                go.transform.localScale = ((Vector3Lerper)currentStage.getLerper("scale")).getCurrentValue();
 
-            if (rotation)
-                go.transform.localRotation = Quaternion.Lerp(initRot, finalRot, _rotCurve.Evaluate(rotationLerper.GetCurrent()));
-        }
+            if (currentStage.willLerpProperty("color"))
+                go.GetComponent<SpriteRenderer>().color = ((ColorLerper)currentStage.getLerper("color")).getCurrentValue();
 
-        public void StopOneProperty(LerpedProperty lp)
-        {
-            lp.lerper.StopLerping();
+            if (currentStage.willLerpProperty("rotation"))
+                go.transform.rotation = ((QuaternionLerper)currentStage.getLerper("rotation")).getCurrentValue();
         }
 
         public void StopAll()
         {
-            foreach (LerpedProperty lp in lerpedProperties)
-            {
-                StopOneProperty(lp);
-            }
+            currentStage.StopAll();
         }
 
-        public void RestartOneProperty(LerpedProperty lp)
+        public void ResetCurrentVariables()
         {
-            StopCoroutine(lp.coroutine);
-            lp.lerper.GoToBeginning();
-            StartLerpingOneProperty(lp);
+            currentStage = stages.getCurrentStage();
         }
 
         public void RestartAll()
         {
-            foreach (LerpedProperty lp in lerpedProperties)
+            foreach (Lerper l in currentStage.lerperDict.Values)
             {
-                RestartOneProperty(lp);
+                StopCoroutine(coroutines[l]);
             }
+
+            stages.setCurrent(0);
+            ResetCurrentVariables();
+            StartLerping();
         }
 
         public void UpdateLerpingProperties()
         {
-            foreach(LerpedProperty lp in lerpedProperties)
-            {
-                lp.lerper.Lerp();
-            }
+            currentStage.LerpAll();
+        }
         }
     }
 }
