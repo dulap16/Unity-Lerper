@@ -111,6 +111,15 @@ namespace Assets.SCRIPTS.Start_Page
         {
             currentStage.LerpAll();
         }
+
+        public void MakeStageInheritFromLast(Stage last, Stage next)
+        {
+            next.setInitValuesOfStage(last.getLerper("position").finalVector3(), last.getLerper("scale").finalVector3(), last.getLerper("color").finalColor(), last.getLerper("rotation").finalQuaternion());
+        }
+
+        public void MakeNextStageStartFromLastPosition()
+        {
+            MakeStageInheritFromLast(stages.getStageOfIndex(stages.getCurrentIndex() - 1), stages.getStageOfIndex(stages.getCurrentIndex()));
         }
     }
 }
