@@ -9,7 +9,7 @@ namespace Assets.SCRIPTS.Start_Page
     public class StageManager
     {
         [SerializeField] private List<Stage> stages;
-        [SerializeField] private int index;
+        [SerializeField] private int current = 0;
 
         public void addStage(Stage stage)
         {
