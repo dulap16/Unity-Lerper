@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.SCRIPTS.Start_Page.Lerpers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,57 +8,12 @@ namespace Assets.SCRIPTS.Start_Page
     public class ObjectToBeLerped : MonoBehaviour
     {
         private GameObject go;
-        // WHAT IS THE OBJECT LERPING
-        [Header("Lerped Properties")]
-        [SerializeField] private bool position = false;
-        [SerializeField] private bool color = false;
-        [SerializeField] private bool rotation = false;
-        [SerializeField] private bool scale = false;
 
+        [SerializeField] private bool inheritInitialProperties = false; 
+        [SerializeField] private StageManager stages;
 
-        [Header("Position lerping")]
-        [SerializeField] public bool inheritInitPos = true;
-        [SerializeField] public Vector3 initPos;
-        [SerializeField] public Vector3 finalPos;
-        [SerializeField] private Lerper positionLerper; 
-        [SerializeField] private AnimationCurve _posCurve;
-
-        [Header("Scale lerping")]
-        [SerializeField] public bool inheritInitScale = true;
-        [SerializeField] public Vector3 initScale;
-        [SerializeField] public Vector3 finalScale;
-        [SerializeField] private Lerper scaleLerper;
-        [SerializeField] private AnimationCurve _scaleCurve;
-
-        [Header("Color lerping")]
-        [SerializeField] private bool inheritInitColor = true;
-        [SerializeField] private Color initColor;
-        [SerializeField] private Color finalColor;
-        [SerializeField] private Lerper colorLerper;
-        [SerializeField] private AnimationCurve _colorCurve;
-
-
-        [Header("Rotation lerping")]
-        [SerializeField] private bool inheritInitRot = true;
-        [SerializeField] private Quaternion initRot;
-        [SerializeField] private Quaternion finalRot;
-        [SerializeField] private Lerper rotationLerper;
-        [SerializeField] private AnimationCurve _rotCurve;
-
-        public class LerpedProperty
-        {
-            public bool isLerped = false;
-            public Lerper lerper;
-            public IEnumerator coroutine;
-
-            public LerpedProperty(bool b, Lerper l)
-            {
-                isLerped = b;
-                lerper = l;
-            }
-        }
-
-        private List<LerpedProperty> lerpedProperties;
+        private Dictionary<Lerper, IEnumerator> coroutines;
+        private Stage currentStage;
 
         public ObjectToBeLerped(GameObject _go)
         {
@@ -66,12 +22,11 @@ namespace Assets.SCRIPTS.Start_Page
             Debug.Log(go);
         }
 
-
-        IEnumerator ApplyDelayToLerper(LerpedProperty lp)
+        IEnumerator ApplyDelayToCurrentStage(Lerper l, float delay)
         {
-            yield return new WaitForSeconds(lp.lerper.delay);
+            yield return new WaitForSeconds(delay);
 
-            lp.lerper.Restart();
+            l.StartLerping();
         }
 
         // Use this for initialization
@@ -79,19 +34,13 @@ namespace Assets.SCRIPTS.Start_Page
         {
             if (go == null)
                 go = gameObject;
-            if(inheritInitPos && position)
-                initPos = go.transform.localPosition;
-            if (inheritInitColor && color)
-                initColor = go.GetComponent<SpriteRenderer>().color;
-            if (inheritInitRot && rotation)
-                initRot = go.transform.localRotation;
 
+            if(inheritInitialProperties)
+                stages.setInitValues(go.transform.localPosition, go.transform.localScale, go.GetComponent<SpriteRenderer>().color, go.transform.rotation);
 
-            lerpedProperties = new List<LerpedProperty>();
-            lerpedProperties.Add(new LerpedProperty(position, positionLerper));
-            lerpedProperties.Add(new LerpedProperty(color, colorLerper));
-            lerpedProperties.Add(new LerpedProperty(rotation, rotationLerper));
-            lerpedProperties.Add(new LerpedProperry(scale, scaleLerper));
+            currentStage = stages.getCurrentStage();
+
+            coroutines = new Dictionary<Lerper, IEnumerator>();
         }
 
         // Update is called once per frame
@@ -99,68 +48,78 @@ namespace Assets.SCRIPTS.Start_Page
         {
             UpdateLerpingProperties();
             ModifyAccordingToLerp();
-        }
 
-        public void StartLerpingOneProperty(LerpedProperty lp)
-        {
-            lp.coroutine = ApplyDelayToLerper(lp);
-            StartCoroutine(lp.coroutine);
-        }
-
-        public void StartLerpingAll()
-        {
-            foreach(LerpedProperty lp in lerpedProperties)
+            if (stages.advanceIfCase())
             {
-                StartLerpingOneProperty(lp);
+                ResetCurrentVariables();
+
+                if(currentStage._inheritLast)
+                    MakeNextStageStartFromLastPosition();
+
+                ResetCurrentVariables();
+                StartLerping();
+            }
+        }
+
+        public void StartLerping()
+        {
+            foreach (Lerper l in currentStage.lerperDict.Values)
+            {
+                coroutines[l] = ApplyDelayToCurrentStage(l, l.delay);
+                StartCoroutine(coroutines[l]);
             }
         }
 
         public void ModifyAccordingToLerp()
         {
-            if(position)
-                go.transform.localPosition = Vector3.Lerp(initPos, finalPos, _posCurve.Evaluate(positionLerper.GetCurrent()));
+            if (currentStage.willLerpProperty("position"))
+                go.transform.localPosition = ((Vector3Lerper)currentStage.getLerper("position")).getCurrentValue();
 
-            if (color)
-                go.GetComponent<SpriteRenderer>().color = Color.Lerp(initColor, finalColor, _colorCurve.Evaluate(colorLerper.GetCurrent()));
+            if (currentStage.willLerpProperty("scale"))
+                go.transform.localScale = ((Vector3Lerper)currentStage.getLerper("scale")).getCurrentValue();
 
-            if (rotation)
-                go.transform.localRotation = Quaternion.Lerp(initRot, finalRot, _rotCurve.Evaluate(rotationLerper.GetCurrent()));
-        }
+            if (currentStage.willLerpProperty("color"))
+                go.GetComponent<SpriteRenderer>().color = ((ColorLerper)currentStage.getLerper("color")).getCurrentValue();
 
-        public void StopOneProperty(LerpedProperty lp)
-        {
-            lp.lerper.StopLerping();
+            if (currentStage.willLerpProperty("rotation"))
+                go.transform.rotation = ((QuaternionLerper)currentStage.getLerper("rotation")).getCurrentValue();
         }
 
         public void StopAll()
         {
-            foreach (LerpedProperty lp in lerpedProperties)
-            {
-                StopOneProperty(lp);
-            }
+            currentStage.StopAll();
         }
 
-        public void RestartOneProperty(LerpedProperty lp)
+        public void ResetCurrentVariables()
         {
-            StopCoroutine(lp.coroutine);
-            lp.lerper.GoToBeginning();
-            StartLerpingOneProperty(lp);
+            currentStage = stages.getCurrentStage();
         }
 
         public void RestartAll()
         {
-            foreach (LerpedProperty lp in lerpedProperties)
+            foreach (Lerper l in currentStage.lerperDict.Values)
             {
-                RestartOneProperty(lp);
+                StopCoroutine(coroutines[l]);
             }
+
+            stages.setCurrent(0);
+            ResetCurrentVariables();
+            StartLerping();
         }
 
         public void UpdateLerpingProperties()
         {
-            foreach(LerpedProperty lp in lerpedProperties)
-            {
-                lp.lerper.Lerp();
-            }
+            currentStage.LerpAll();
+        }
+
+        public void MakeStageInheritFromLast(Stage last, Stage next)
+        {
+            next.setInitValuesOfStage(last.getLerper("position").finalVector3(), last.getLerper("scale").finalVector3(), last.getLerper("color").finalColor(), last.getLerper("rotation").finalQuaternion());
+        }
+
+        public void MakeNextStageStartFromLastPosition()
+        {
+            MakeStageInheritFromLast(stages.getStageOfIndex(stages.getCurrentIndex() - 1), stages.getStageOfIndex(stages.getCurrentIndex()));
         }
     }
 }

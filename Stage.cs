@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.SCRIPTS.Start_Page.Lerpers;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,29 +9,130 @@ namespace Assets.SCRIPTS.Start_Page
     [Serializable]
     public class Stage
     {
-        [SerializeField] [Range(0, 10)] private float _delay, _speed;
-        [SerializeField] private bool _inheritLast;
-        [SerializeField] private Vector3 initPos, finalPos;
-        [SerializeField] private Vector3 initScale, finalScale;
-        [SerializeField] private Color initColor, finalColor;
-        [SerializeField] private Quaternion initRot, finalRot;
-        [SerializeField] private List<AnimationCurve> _curves; // 1 - pos, 2 -scale, 3 - color, 4 - rotation
+        [SerializeField] public bool _inheritLast;
+        [SerializeField] private Vector3Lerper positionLerper;
+        [SerializeField] private Vector3Lerper scaleLerper;
+        [SerializeField] private ColorLerper colorLerper;
+        [SerializeField] private QuaternionLerper rotationLerper;
+
+        [SerializeField] private List<Lerper> lerpers;
+        public Dictionary<String, Lerper> lerperDict;
 
         public Stage()
         {
-            _curves = new List<AnimationCurve>();
-            for (int i = 0; i < 4; i++)
-                _curves.Add(new AnimationCurve());
+            lerpers = new List<Lerper>();
+
+            positionLerper = new Vector3Lerper();
+            scaleLerper = new Vector3Lerper();
+            colorLerper = new ColorLerper();
+            rotationLerper = new QuaternionLerper();
+            lerpers.Add(positionLerper);
+            lerpers.Add(scaleLerper);
+            lerpers.Add(colorLerper);
+            lerpers.Add(rotationLerper);
+
+            lerperDict = new Dictionary<String, Lerper>();
+            lerperDict.Add("position", positionLerper);
+            lerperDict.Add("scale", scaleLerper);
+            lerperDict.Add("color", colorLerper);
+            lerperDict.Add("rotation", rotationLerper);
         }
 
-        public void setInitPos(Vector3 pos)
+        public Lerper getLerper(String name)
         {
-            initPos = pos;
+            return lerperDict[name];
+        }
+
+        public void LerpAll()
+        {
+            if(positionLerper.WillLerp())
+                positionLerper.Lerp();
+
+            if(scaleLerper.WillLerp())
+                scaleLerper.Lerp();
+            
+            if(colorLerper.WillLerp())
+                colorLerper.Lerp();
+            
+            if(rotationLerper.WillLerp())
+                rotationLerper.Lerp();
+
+            /*foreach (Lerper l in lerpers)
+                if (l.WillLerp())
+                {
+                    Debug.Log(l);
+                    l.Lerp();
+                }*/
+        }
+
+        public void StartAll()
+        {
+            positionLerper.StartLerping();
+            scaleLerper.StartLerping();
+            colorLerper.StartLerping();
+            rotationLerper.StartLerping();
+
+            /*foreach (Lerper l in lerpers)
+                l.StartLerping();*/
+        }
+
+        public void StopAll()
+        {
+            positionLerper.StopLerping();
+            scaleLerper.StopLerping();
+            colorLerper.StopLerping();
+            rotationLerper.StopLerping();
+
+            /*foreach (Lerper l in lerpers)
+                l.StopLerping();*/
+        }
+
+        public void RestartAll()
+        {
+            positionLerper.Restart();
+            scaleLerper.Restart();
+            colorLerper.Restart();
+            rotationLerper.Restart();
+
+            /*foreach (Lerper l in lerpers)
+                l.Restart(); */
+        }
+
+        public void GoToBeginning()
+        {
+            positionLerper.GoToBeginning();
+            scaleLerper.GoToBeginning();
+            colorLerper.GoToBeginning();
+            rotationLerper.GoToBeginning();
+
+            /*foreach (Lerper l in lerpers)
+                l.GoToBeginning();*/
+        }
+
+        public bool wasStageFinished()
+        {
+            return positionLerper.wasTargetReached()
+                && scaleLerper.wasTargetReached()
+                && colorLerper.wasTargetReached()
+                && rotationLerper.wasTargetReached();
         }
 
         public void setInherit(bool b)
         {
             _inheritLast = b;
+        }
+
+        public bool willLerpProperty(String name)
+        {
+            return lerperDict[name].WillLerp();
+        }
+
+        public void setInitValuesOfStage(Vector3 pos, Vector3 scale, Color color, Quaternion rotation)
+        {
+            positionLerper.setInit(pos);
+            scaleLerper.setInit(scale);
+            colorLerper.setInit(color);
+            rotationLerper.setInit(rotation);        
         }
     }
 }
