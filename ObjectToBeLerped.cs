@@ -9,7 +9,6 @@ namespace Assets.SCRIPTS.Start_Page
     {
         private GameObject go;
 
-        [SerializeField] private bool inheritInitialProperties = false; 
         [SerializeField] private StageManager stages;
 
         private Dictionary<Lerper, IEnumerator> coroutines;
@@ -35,10 +34,9 @@ namespace Assets.SCRIPTS.Start_Page
             if (go == null)
                 go = gameObject;
 
-            if(inheritInitialProperties)
-                stages.setInitValues(go.transform.localPosition, go.transform.localScale, go.GetComponent<SpriteRenderer>().color, go.transform.rotation);
 
             currentStage = stages.getCurrentStage();
+            currentStage.setInitIfCase(go.transform.localPosition, go.transform.localScale, go.GetComponent<SpriteRenderer>().color, go.transform.rotation);
 
             coroutines = new Dictionary<Lerper, IEnumerator>();
         }
@@ -53,8 +51,7 @@ namespace Assets.SCRIPTS.Start_Page
             {
                 ResetCurrentVariables();
 
-                if(currentStage._inheritLast)
-                    MakeNextStageStartFromLastPosition();
+                MakeNextStageStartFromLast();
 
                 ResetCurrentVariables();
                 StartLerping();
@@ -115,10 +112,10 @@ namespace Assets.SCRIPTS.Start_Page
 
         public void MakeStageInheritFromLast(Stage last, Stage next)
         {
-            next.setInitValuesOfStage(last.getLerper("position").finalVector3(), last.getLerper("scale").finalVector3(), last.getLerper("color").finalColor(), last.getLerper("rotation").finalQuaternion());
+            next.setInitIfCase(last.getLerper("position").finalVector3(), last.getLerper("scale").finalVector3(), last.getLerper("color").finalColor(), last.getLerper("rotation").finalQuaternion());
         }
 
-        public void MakeNextStageStartFromLastPosition()
+        public void MakeNextStageStartFromLast()
         {
             MakeStageInheritFromLast(stages.getStageOfIndex(stages.getCurrentIndex() - 1), stages.getStageOfIndex(stages.getCurrentIndex()));
         }

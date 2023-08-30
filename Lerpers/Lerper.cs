@@ -9,7 +9,8 @@ namespace Assets.SCRIPTS.Start_Page
     [System.Serializable]
     public class Lerper
     {
-        [SerializeField] public bool willLerp = false;
+        [SerializeField] private bool willLerp = false;
+        [SerializeField] private bool inheritLast = false;
 
         private float _current = 0;
         private float _target = 0;
@@ -55,6 +56,11 @@ namespace Assets.SCRIPTS.Start_Page
         public bool WillLerp()
         {
             return willLerp;
+        }
+
+        public bool willInheritLast()
+        {
+            return inheritLast;
         }
     }
 }
