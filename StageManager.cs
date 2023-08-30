@@ -70,6 +70,12 @@ namespace Assets.SCRIPTS.Start_Page
             getStageOfIndex(0).setInitValuesOfStage(pos, scale, color, rotation);
         }
 
+        public void Restart()
+        {
+            setCurrent(0);
+            getCurrentStage().RestartAll();
+        }
+
         public bool advanceIfCase()
         {
             if(isCurrentStageFinished())
