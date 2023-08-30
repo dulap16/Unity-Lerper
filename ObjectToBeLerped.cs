@@ -65,6 +65,7 @@ namespace Assets.SCRIPTS.Start_Page
         {
             foreach (Lerper l in currentStage.lerperDict.Values)
             {
+                l.GoToBeginning();
                 coroutines[l] = ApplyDelayToCurrentStage(l, l.delay);
                 StartCoroutine(coroutines[l]);
             }
@@ -95,14 +96,14 @@ namespace Assets.SCRIPTS.Start_Page
             currentStage = stages.getCurrentStage();
         }
 
-        public void RestartAll()
+        public void Restart()
         {
             foreach (Lerper l in currentStage.lerperDict.Values)
             {
                 StopCoroutine(coroutines[l]);
             }
 
-            stages.setCurrent(0);
+            stages.Restart();
             ResetCurrentVariables();
             StartLerping();
         }
