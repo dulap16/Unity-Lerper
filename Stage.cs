@@ -126,7 +126,19 @@ namespace Assets.SCRIPTS.Start_Page
             positionLerper.setInit(pos);
             scaleLerper.setInit(scale);
             colorLerper.setInit(color);
-            rotationLerper.setInit(rotation);        
+            rotationLerper.setInit(rotation);
+        }
+
+        public void setInitIfCase(Vector3 pos, Vector3 scale, Color color, Quaternion rotation)
+        {
+            if(positionLerper.willInheritLast())
+                positionLerper.setInit(pos);
+            if (scaleLerper.willInheritLast())
+                scaleLerper.setInit(scale);
+            if (colorLerper.willInheritLast())
+                colorLerper.setInit(color);
+            if (rotationLerper.willInheritLast())
+                rotationLerper.setInit(rotation);
         }
     }
 }
