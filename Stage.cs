@@ -15,7 +15,7 @@ namespace Assets.SCRIPTS.Start_Page
         [SerializeField] private ColorLerper colorLerper;
         [SerializeField] private QuaternionLerper rotationLerper;
 
-        [SerializeField] private List<Lerper> lerpers;
+        private List<Lerper> lerpers;
         public Dictionary<String, Lerper> lerperDict;
 
         public Stage()
