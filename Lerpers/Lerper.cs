@@ -20,13 +20,11 @@ namespace Assets.SCRIPTS.Start_Page
         public void Lerp()
         {
             _current = Mathf.MoveTowards(_current, _target, speed * Time.deltaTime);
-            if (_target - _current > -0.001f && _target - _current < 0.001f)
-                _current = _target;
         }
 
         public float GetCurrent()
         {
-            return _current;
+            return _curve.Evaluate(_current);
         }
 
         public void StartLerping()
@@ -51,7 +49,12 @@ namespace Assets.SCRIPTS.Start_Page
         }
         public bool wasTargetReached()
         {
-            return _current == _target;
+            return (willLerp && _current  == 1) || !willLerp;
+        }
+
+        public bool WillLerp()
+        {
+            return willLerp;
         }
     }
 }
