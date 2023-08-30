@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Assets.SCRIPTS.Start_Page.Lerpers;
+using System;
 using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
 
 namespace Assets.SCRIPTS.Start_Page
@@ -7,10 +9,13 @@ namespace Assets.SCRIPTS.Start_Page
     [System.Serializable]
     public class Lerper
     {
+        [SerializeField] public bool willLerp = false;
+
         private float _current = 0;
         private float _target = 0;
         [SerializeField] [Range(0, 10)] public float speed;
         [SerializeField] [Range(0, 20)] public float delay;
+        [SerializeField] public AnimationCurve _curve;
 
         public void Lerp()
         {
