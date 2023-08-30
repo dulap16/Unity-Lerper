@@ -9,7 +9,6 @@ namespace Assets.SCRIPTS.Start_Page
     [Serializable]
     public class Stage
     {
-        [SerializeField] public bool _inheritLast;
         [SerializeField] private Vector3Lerper positionLerper;
         [SerializeField] private Vector3Lerper scaleLerper;
         [SerializeField] private ColorLerper colorLerper;
@@ -115,11 +114,6 @@ namespace Assets.SCRIPTS.Start_Page
                 && scaleLerper.wasTargetReached()
                 && colorLerper.wasTargetReached()
                 && rotationLerper.wasTargetReached();
-        }
-
-        public void setInherit(bool b)
-        {
-            _inheritLast = b;
         }
 
         public bool willLerpProperty(String name)
