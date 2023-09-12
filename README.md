@@ -10,3 +10,21 @@ The main folder includes the following scripts:
   - this is the script that is attached to the object you want to lerp, which has a StageManager object added to it.
 
 
+
+
+The Lerpers folder includes the following C# classes:
+- **Lerper**
+- ColorLerper
+- QuaternionLerper
+- Vector3Lerper
+
+>Every class from the Lerpers folder inherits from the Lerper class.
+>Each Lerper is for the specified property, and has the following variables changeable:
+> - willLerp
+> - inheritLast
+> - speed
+> - delay
+> - curve
+> - init
+> - final
+
