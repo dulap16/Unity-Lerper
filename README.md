@@ -1,5 +1,8 @@
 # Unity Lerper
- Scripts that are intended to make lerping a much easier and organized experience
+ ---
+  Scripts that are intended to make lerping a much easier and organized experience.
+
+---
 #### Included Scripts
 The main folder includes the following scripts:
 - Stage
