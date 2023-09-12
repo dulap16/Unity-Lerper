@@ -28,3 +28,9 @@ The Lerpers folder includes the following C# classes:
 > - init
 > - final
 
+---
+#### How to use
+The way it works is: 
+1. you attach the *ObjectToBeLerped* to the GameObject you want to animate
+2. then add how many stages you want and configure them to your liking
+3. then you just need a script to activate the *StartLerping* method of the *ObjectToBeLerped* and then the animation will start!
