@@ -44,16 +44,16 @@ namespace Assets.SCRIPTS.Start_Page
 
         public void LerpAll()
         {
-            if(positionLerper.WillLerp())
+            if (positionLerper.WillLerp())
                 positionLerper.Lerp();
 
-            if(scaleLerper.WillLerp())
+            if (scaleLerper.WillLerp())
                 scaleLerper.Lerp();
-            
-            if(colorLerper.WillLerp())
+
+            if (colorLerper.WillLerp())
                 colorLerper.Lerp();
-            
-            if(rotationLerper.WillLerp())
+
+            if (rotationLerper.WillLerp())
                 rotationLerper.Lerp();
 
             /*foreach (Lerper l in lerpers)
@@ -121,6 +121,18 @@ namespace Assets.SCRIPTS.Start_Page
             return lerperDict[name].WillLerp();
         }
 
+        public void changeOneInitialValue(String name, object value)
+        {
+            if (name == "position")
+                positionLerper.setInit((Vector3)value);
+            if (name == "scale")
+                positionLerper.setInit((Vector3)value);
+            if (name == "color")
+                colorLerper.setInit((Color)value);
+            if (name == "rotation")
+                rotationLerper.setInit((Quaternion)value);
+        }
+
         public void setInitValuesOfStage(Vector3 pos, Vector3 scale, Color color, Quaternion rotation)
         {
             positionLerper.setInit(pos);
@@ -131,7 +143,7 @@ namespace Assets.SCRIPTS.Start_Page
 
         public void setInitIfCase(Vector3 pos, Vector3 scale, Color color, Quaternion rotation)
         {
-            if(positionLerper.willInheritLast())
+            if (positionLerper.willInheritLast())
                 positionLerper.setInit(pos);
             if (scaleLerper.willInheritLast())
                 scaleLerper.setInit(scale);
