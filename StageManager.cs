@@ -13,7 +13,7 @@ namespace Assets.SCRIPTS.Start_Page
 
         public void addStage(Stage stage)
         {
-            if(stages == null)
+            if (stages == null)
                 stages = new List<Stage>();
 
             stages.Add(stage);
@@ -21,9 +21,9 @@ namespace Assets.SCRIPTS.Start_Page
 
         public bool goToNextStage()
         {
-            if (current + 1>= stages.Count)
+            if (current + 1 >= stages.Count)
                 return false;
-            
+
             current++;
 
             getCurrentStage().GoToBeginning();
@@ -55,6 +55,11 @@ namespace Assets.SCRIPTS.Start_Page
             current = x;
         }
 
+        public void setStage(int index, Stage s)
+        {
+            stages[index] = s;
+        }
+
         public void setStageOfIndex(int i, Stage stage)
         {
             stages[i] = stage;
@@ -70,6 +75,11 @@ namespace Assets.SCRIPTS.Start_Page
             getStageOfIndex(0).setInitValuesOfStage(pos, scale, color, rotation);
         }
 
+        public bool finishedEntireAnimation()
+        {
+            return isCurrentStageFinished() && (getNumberOfStages() - 1) == getCurrentIndex();
+        }
+
         public void Restart()
         {
             setCurrent(0);
@@ -78,7 +88,7 @@ namespace Assets.SCRIPTS.Start_Page
 
         public bool advanceIfCase()
         {
-            if(isCurrentStageFinished())
+            if (isCurrentStageFinished())
             {
                 return goToNextStage();
             }
