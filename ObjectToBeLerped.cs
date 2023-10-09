@@ -60,6 +60,13 @@ namespace Assets.SCRIPTS.Start_Page
             }
         }
 
+
+        public void SetCurrent(Stage s)
+        {
+            currentStage = s;
+            StartLerping();
+        }
+
         public void StartLerping()
         {
             foreach (Lerper l in currentStage.lerperDict.Values)
