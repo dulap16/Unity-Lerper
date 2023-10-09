@@ -48,7 +48,7 @@ namespace Assets.SCRIPTS.Start_Page
                 UpdateLerpingProperties();
                 ModifyAccordingToLerp();
 
-                if (stages.advanceIfCase())
+                if (stages.advanceIfCase() && consecutive)
                 {
                     ResetCurrentVariables();
 
