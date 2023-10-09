@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Rendering;
 
 namespace Assets.SCRIPTS.Start_Page
 {
@@ -13,7 +14,7 @@ namespace Assets.SCRIPTS.Start_Page
 
         public void addStage(Stage stage)
         {
-            if (stages == null)
+            if(stages == null)
                 stages = new List<Stage>();
 
             stages.Add(stage);
@@ -21,9 +22,9 @@ namespace Assets.SCRIPTS.Start_Page
 
         public bool goToNextStage()
         {
-            if (current + 1 >= stages.Count)
+            if (current + 1>= stages.Count)
                 return false;
-
+            
             current++;
 
             getCurrentStage().GoToBeginning();
@@ -53,6 +54,27 @@ namespace Assets.SCRIPTS.Start_Page
         public void setCurrent(int x)
         {
             current = x;
+        }
+
+        public void setCurrent(string name)
+        {
+            int index = getIndexOfName(name);
+            if (index != -1)
+                current = index;
+            else Debug.Log("ERROR: name not found: " + name);
+        }
+
+        public int getIndexOfName(string name)
+        {
+            for(int i = 0; i < stages.Count; i++)
+            {
+                if(stages[i].name == name)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         public void setStage(int index, Stage s)
@@ -88,7 +110,7 @@ namespace Assets.SCRIPTS.Start_Page
 
         public bool advanceIfCase()
         {
-            if (isCurrentStageFinished())
+            if(isCurrentStageFinished())
             {
                 return goToNextStage();
             }
