@@ -60,6 +60,19 @@ namespace Assets.SCRIPTS.Start_Page
             }
         }
 
+        public void GoToStage(int index)
+        {
+            stages.setCurrent(index);
+            MakeLerpersStartFromCurrent(stages.getCurrentStage());
+            SetCurrent(stages.getCurrentStage());
+        }
+
+        public void GoToStage(string name)
+        {
+            stages.setCurrent(name);
+            MakeLerpersStartFromCurrent(stages.getCurrentStage());
+            SetCurrent(stages.getCurrentStage());
+        }
 
         public void SetCurrent(Stage s)
         {
