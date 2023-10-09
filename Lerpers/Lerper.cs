@@ -11,6 +11,7 @@ namespace Assets.SCRIPTS.Start_Page
     {
         [SerializeField] private bool willLerp = false;
         [SerializeField] private bool inheritLast = false;
+        [SerializeField] private bool inheritCurrent = false;
 
         private float _current = 0;
         private float _target = 0;
@@ -61,6 +62,54 @@ namespace Assets.SCRIPTS.Start_Page
         public bool willInheritLast()
         {
             return inheritLast;
+        }
+
+        public bool willInheritCurrent()
+        {
+            return inheritCurrent;
+        }
+
+        public Vector3 finalVector3()
+        {
+            Vector3 result;
+            try
+            {
+                result = ((Vector3Lerper)this).getFinal();
+            } catch(Exception e)
+            {
+                result = Vector3.zero;
+            }
+
+            return result;
+        }
+
+        public Color finalColor()
+        {
+            Color result;
+            try
+            {
+                result = ((ColorLerper)this).getFinal();
+            } catch(Exception e)
+            {
+                result = Color.black;
+            }
+
+            return result;
+        }
+
+        public Quaternion finalQuaternion()
+        {
+            Quaternion result;
+            try
+            {
+                result = ((QuaternionLerper)this).getFinal();
+            }
+            catch (Exception e)
+            {
+                result = new Quaternion();
+            }
+
+            return result;
         }
     }
 }
