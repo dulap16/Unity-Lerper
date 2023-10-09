@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Rendering;
 
 namespace Assets.SCRIPTS.Start_Page
 {
@@ -13,7 +14,7 @@ namespace Assets.SCRIPTS.Start_Page
 
         public void addStage(Stage stage)
         {
-            if (stages == null)
+            if(stages == null)
                 stages = new List<Stage>();
 
             stages.Add(stage);
@@ -21,9 +22,9 @@ namespace Assets.SCRIPTS.Start_Page
 
         public bool goToNextStage()
         {
-            if (current + 1 >= stages.Count)
+            if (current + 1>= stages.Count)
                 return false;
-
+            
             current++;
 
             getCurrentStage().GoToBeginning();
@@ -88,7 +89,7 @@ namespace Assets.SCRIPTS.Start_Page
 
         public bool advanceIfCase()
         {
-            if (isCurrentStageFinished())
+            if(isCurrentStageFinished())
             {
                 return goToNextStage();
             }
