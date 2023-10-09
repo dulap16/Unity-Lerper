@@ -56,6 +56,14 @@ namespace Assets.SCRIPTS.Start_Page
             current = x;
         }
 
+        public void setCurrent(string name)
+        {
+            int index = getIndexOfName(name);
+            if (index != -1)
+                current = index;
+            else Debug.Log("ERROR: name not found: " + name);
+        }
+
         public void setStage(int index, Stage s)
         {
             stages[index] = s;
