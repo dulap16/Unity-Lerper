@@ -64,6 +64,19 @@ namespace Assets.SCRIPTS.Start_Page
             else Debug.Log("ERROR: name not found: " + name);
         }
 
+        public int getIndexOfName(string name)
+        {
+            for(int i = 0; i < stages.Count; i++)
+            {
+                if(stages[i].name == name)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
         public void setStage(int index, Stage s)
         {
             stages[index] = s;
