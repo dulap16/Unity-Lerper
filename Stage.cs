@@ -154,5 +154,17 @@ namespace Assets.SCRIPTS.Start_Page
             if (rotationLerper.willInheritLast())
                 rotationLerper.setInit(rotation);
         }
+
+        public void setCurrentIfCase(Vector3 pos, Vector3 scale, Color color, Quaternion rotation)
+        {
+            if (positionLerper.willInheritCurrent())
+                positionLerper.setInit(pos);
+            if (scaleLerper.willInheritCurrent())
+                scaleLerper.setInit(scale);
+            if (colorLerper.willInheritCurrent())
+                colorLerper.setInit(color);
+            if (rotationLerper.willInheritCurrent())
+                rotationLerper.setInit(rotation);
+        }
     }
 }
