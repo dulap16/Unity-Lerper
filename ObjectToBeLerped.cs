@@ -1,12 +1,14 @@
 ﻿using Assets.SCRIPTS.Start_Page.Lerpers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
 namespace Assets.SCRIPTS.Start_Page
 {
     public class ObjectToBeLerped : MonoBehaviour
     {
+        public bool consecutive = true;
         private GameObject go;
 
         [SerializeField] private StageManager stages;
