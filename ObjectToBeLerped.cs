@@ -140,6 +140,21 @@ namespace Assets.SCRIPTS.Start_Page
             MakeStageInheritFromLast(stages.getStageOfIndex(stages.getCurrentIndex() - 1), stages.getStageOfIndex(stages.getCurrentIndex()));
         }
 
+        public void MakeLerpersStartFromCurrent(Stage s)
+        {
+            if (s.getLerper("position").willInheritCurrent())
+                s.changeOneInitialValue("position", go.transform.localPosition);
+
+            if (s.getLerper("scale").willInheritCurrent())
+                s.changeOneInitialValue("scale", go.transform.localScale);
+
+            if (s.getLerper("color").willInheritCurrent())
+                s.changeOneInitialValue("color", go.GetComponent<SpriteRenderer>());
+
+            if (s.getLerper("rotation").willInheritCurrent())
+                s.changeOneInitialValue("rotation", go.transform.rotation);
+        }
+
         public void ModifyStage(int index, Stage s)
         {
             stages.setStage(index, s);
