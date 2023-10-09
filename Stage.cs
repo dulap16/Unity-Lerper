@@ -9,6 +9,8 @@ namespace Assets.SCRIPTS.Start_Page
     [Serializable]
     public class Stage
     {
+        [SerializeField] public string name;
+
         [SerializeField] private Vector3Lerper positionLerper;
         [SerializeField] private Vector3Lerper scaleLerper;
         [SerializeField] private ColorLerper colorLerper;
@@ -44,16 +46,16 @@ namespace Assets.SCRIPTS.Start_Page
 
         public void LerpAll()
         {
-            if (positionLerper.WillLerp())
+            if(positionLerper.WillLerp())
                 positionLerper.Lerp();
 
-            if (scaleLerper.WillLerp())
+            if(scaleLerper.WillLerp())
                 scaleLerper.Lerp();
-
-            if (colorLerper.WillLerp())
+            
+            if(colorLerper.WillLerp())
                 colorLerper.Lerp();
-
-            if (rotationLerper.WillLerp())
+            
+            if(rotationLerper.WillLerp())
                 rotationLerper.Lerp();
 
             /*foreach (Lerper l in lerpers)
@@ -141,9 +143,9 @@ namespace Assets.SCRIPTS.Start_Page
             rotationLerper.setInit(rotation);
         }
 
-        public void setInitIfCase(Vector3 pos, Vector3 scale, Color color, Quaternion rotation)
+        public void setLastIfCase(Vector3 pos, Vector3 scale, Color color, Quaternion rotation)
         {
-            if (positionLerper.willInheritLast())
+            if(positionLerper.willInheritLast())
                 positionLerper.setInit(pos);
             if (scaleLerper.willInheritLast())
                 scaleLerper.setInit(scale);
