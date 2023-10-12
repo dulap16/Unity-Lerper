@@ -36,6 +36,7 @@ namespace Assets.SCRIPTS.Start_Page
 
             currentStage = stages.getCurrentStage();
             setInitialValues();
+            TimeToSpeedWhereNeeded();
 
             coroutines = new Dictionary<Lerper, IEnumerator>();
         }
@@ -143,6 +144,11 @@ namespace Assets.SCRIPTS.Start_Page
 
             if (currentStage.willLerpProperty("rotation"))
                 currentStage.changeOneInitialValue("rotation", go.transform.rotation);
+        }
+
+        public void TimeToSpeedWhereNeeded()
+        {
+            stages.TimeToSpeedWhereNeeded();
         }
 
         public void UpdateLerpingProperties()
