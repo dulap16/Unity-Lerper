@@ -32,6 +32,16 @@ namespace Assets.SCRIPTS.Start_Page
             return useTime;
         }
 
+        public void TimeToSpeedIfNeeded()
+        {
+            if (useTime) {
+                if (this is Vector3Lerper)
+                    ((Vector3Lerper)this).assignSpeedAsTime();
+                if (this is QuaternionLerper)
+                    ((QuaternionLerper)this).assignSpeedAsTime();
+            }
+        }
+
         public float GetCurrent()
         {
             return _curve.Evaluate(_current);
